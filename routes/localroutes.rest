@@ -1,0 +1,35 @@
+GET http://localhost:8000/students
+
+
+###
+
+GET http://localhost:8000/students/63cafba1b8644f10d4db0b1e
+
+
+
+###
+
+
+POST http://localhost:8000/students
+Content-Type: application/json
+
+{
+    "name": "Pamela Bynum",
+    "class": "DWA"
+}
+
+###
+
+DELETE http://localhost:8000/students/63cafbb6b8644f10d4db0b21
+
+###
+
+PATCH  http://localhost:8000/students/63cafbc7b8644f10d4db0b23
+Content-Type: application/json
+
+{
+    "name": "New Name ",
+    "class": "New Class"
+}
+
+
