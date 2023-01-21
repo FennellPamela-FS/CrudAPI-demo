@@ -6,6 +6,8 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
+// its ok to except cors request for this server
+app.use(cors());
 
 // Serve up environment variables for deployment (usually on heroku)
 const PORT = process.env.PORT || 8000;
