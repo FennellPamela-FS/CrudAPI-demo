@@ -6,8 +6,8 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-// its ok to except cors request for this server
-app.use(cors());
+app.use(cors());    // its ok to except cors request for this server
+
 
 // Serve up environment variables for deployment (usually on heroku)
 const PORT = process.env.PORT || 8000;
@@ -24,10 +24,19 @@ db.once('open', () => console.log('Database connected established'))
 
 
 app.use(express.json()); // expect json on all routes after this
-app.use('/students', studentRouter);
+app.use('/api/v1/students', studentRouter);
+
+// static react build exists in the react build dir
+app.use(express.static(path.join(__dirname, '../reactjs/build')));
+
+app.get('/', (req, res) => { res.send('Hello from Express!') })
+
+// if route undefined by API then its a direct request to client-side route
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../reactjs/build', 'index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })
 
-app.get('/', (req, res) => { res.send('Hello from Express!') })
