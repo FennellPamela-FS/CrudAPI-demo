@@ -7,7 +7,7 @@ function App() {
   const [error, setError] = useState(null);
 
   // if node env is development then set localhost:8000 else use REACT_APP_BASE_URL
-  const API_BASE = process.env.NODE_ENV === 'development' ? `http://localhost:8000` : process.env.REACT_APP_BASE_URL;
+  const API_BASE = process.env.NODE_ENV === 'development' ? `http://localhost:8000/api/v1` : process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     let ignore = false;
