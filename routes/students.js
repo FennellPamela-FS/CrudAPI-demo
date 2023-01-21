@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // build our info about the students
-const Student = require('../models/Student');
+const Student = require('../models/student');
 
 
 // RESTful Endpoints
