@@ -15,4 +15,7 @@
 ## Application
 This is an application to see Student names and their classes
 - routes
-- 
+- models
+
+# main branch of the application
+- api Deployed to Heroku
