@@ -1,0 +1,39 @@
+const User = require('../models/user')
+const jwt = require('jwt-simple')
+const config = require('../config')
+
+const tokenForUser = user => {
+    const timestamp = new Date().getTime()
+    return jwt.encode({
+        sub: user.id,
+        iat: timestamp,
+    }, config.secret)
+}
+
+
+
+exports.signup = (req, res, next) => {
+    const {
+        email,
+        password,
+    } = req.body;
+    if (!email || !password) {
+        // if we dong get what we need, then return this status code and message
+        return res.status(422).json({ error: "Please provide a your email and password" })
+    }
+    // if we do get what we need, then return this json
+    User.findOne({ email: email }, (err, exitingUser) => {
+        if (error) { return next(error); }
+        if (exitingUser) { return res.status(422).json({ error: "Email already in use" }) }
+
+        const user = new User({
+            email: email,
+            password: password,
+        })
+
+        user.save((error) => {
+            if (error) { return next(error) }
+            res.json({ user_id: user.id, token: tokenForUser(user) })
+        })
+    })
+}
