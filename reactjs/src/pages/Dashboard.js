@@ -5,7 +5,7 @@ import '../App.css';
 function Dashboard() {
     const [students, setStudents] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState(null);
 
     const [values, setValues] = useState({
         name: '',
@@ -26,7 +26,7 @@ function Dashboard() {
         return () => {
             ignore = true;
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) // no dependencies
 
     const getStudents = async () => {
@@ -39,9 +39,9 @@ function Dashboard() {
                     setStudents(data);
                 });
         } catch (error) {
-            setError(error.message || "Unexpected Error")
+            setErrors(error.message || "Unexpected Error")
         } finally {
-            setLoading(false);
+            setLoading({ ...loading, loading: false });
         }
 
     }
@@ -56,7 +56,13 @@ function Dashboard() {
                 body: JSON.stringify(values)
             }).then(() => getStudents())
         } catch (error) {
-            setError(error.message || "Unexpected Error")
+            // setErrors(error.message || "Unexpected Error")
+            setErrors({
+                ...errors,
+                fetchError: true,
+                fetchErrorMsg:
+                    'Unexpected Error',
+            })
         } finally {
             setLoading(false)
         }
