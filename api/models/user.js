@@ -1,13 +1,13 @@
 // Student Schema
-import { Schema, model } from "mongoose";
-import { genSalt, hash as _hash } from 'bcrypt';
+const mongoose = require("mongoose");
+const bcrypt = require('bcrypt')
 
 const validateEmail = (email) => {
     // check for characters in front and behind the @ symbol 
     return (/^\S+@\S+\.\S+$/).test(email)
 }
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: 'Email address is required',
@@ -31,11 +31,11 @@ userSchema.pre('save', (next) {
     // if user is new then run or if we are modifying pass then run 
     if (userSchema.isNew || userSchema.isModified('password')) {
         // run hashing and salting
-        genSalt(10, (error, salt) => {
+        bcrypt.genSalt(10, (error, salt) => {
             // salt each time 
             // if error the return error, if no error then run bcrypt hash on the password for each salt
             if (error) { return next(error) }
-            _hash(user.password, salt, (error, hash) => {
+            bcrypt.hash(user.password, salt, (error, hash) => {
                 user.password = hash;
                 next();
             })
@@ -46,4 +46,4 @@ userSchema.pre('save', (next) {
     }
 })
 
-export default model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);
