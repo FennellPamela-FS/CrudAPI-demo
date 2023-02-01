@@ -1,5 +1,10 @@
 //  students router
 const express = require('express');
+const passport = require('passport')
+
+const passportService = require('../services/passport')
+
+const protectedRoute = passport.authenticate('jwt', { session: false })
 const router = express.Router();
 
 // build our info about the students
@@ -28,7 +33,7 @@ const getStudent = async (req, res, next) => {
 
 
 // Get all Students
-router.get('/', async (req, res) => {
+router.get('/', protectedRoute, async (req, res) => {
     try {
         // find everything in the student model
         const students = await Student.find();

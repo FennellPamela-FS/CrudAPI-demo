@@ -10,21 +10,22 @@ const tokenForUser = user => {
     }, config.secret)
 }
 
-
+exports.signin = (req, res, next) => {
+    const user = req.user;
+    res.send({ token: tokenForUser(user), user_id: user._id })
+}
 
 exports.signup = (req, res, next) => {
-    const {
-        email,
-        password,
-    } = req.body;
+    const { email, password } = req.body;
+
     if (!email || !password) {
         // if we dong get what we need, then return this status code and message
-        return res.status(422).json({ error: "Please provide a your email and password" })
+        return res.status(422).json({ error: "Please provide your email and password" })
     }
     // if we do get what we need, then return this json
-    User.findOne({ email: email }, (err, exitingUser) => {
-        if (error) { return next(error); }
-        if (exitingUser) { return res.status(422).json({ error: "Email already in use" }) }
+    User.findOne({ email: email }, (error, existingUser) => {
+        if (error) { return next(error) }
+        if (existingUser) { return res.status(422).json({ error: "Email already in use" }) }
 
         const user = new User({
             email: email,
@@ -33,7 +34,7 @@ exports.signup = (req, res, next) => {
 
         user.save((error) => {
             if (error) { return next(error) }
-            res.json({ user_id: user.id, token: tokenForUser(user) })
+            res.json({ user_id: user._id, token: tokenForUser(user) })
         })
     })
 }

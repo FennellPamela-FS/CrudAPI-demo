@@ -26,10 +26,10 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-userSchema.pre('save', (next) {
+userSchema.pre('save', function (next) {
     const user = this;
     // if user is new then run or if we are modifying pass then run 
-    if (userSchema.isNew || userSchema.isModified('password')) {
+    if (user.isNew || user.isModified('password')) {
         // run hashing and salting
         bcrypt.genSalt(10, (error, salt) => {
             // salt each time 
@@ -46,4 +46,11 @@ userSchema.pre('save', (next) {
     }
 })
 
-module.exports = mongoose.model("User", userSchema);
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
+    bcrypt.compare(candidatePassword, this.password, function (error, isMatch) {
+        if (error) { return callback(error) }
+        callback(null, isMatch)
+    })
+}
+
+module.exports = mongoose.model('User', userSchema);
