@@ -1,11 +1,19 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Student from './pages/Student';
 
-
 function App() {
+
+  // build a service to grab token when user signs in
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+    }
+  })
+
   return (
     <Router>
       <Routes>
