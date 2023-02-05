@@ -12,9 +12,6 @@ function SignUp() {
     // capture confirm password
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    // capture name
-
-
     const navigate = useNavigate();
 
     // function to handle signup

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
+import AuthService from './services/auth.service';
+
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Student from './pages/Student';
@@ -13,12 +15,16 @@ function App() {
   const [currentUser, setCurrentUser] = useState(false);
 
   useEffect(() => {
-    // const user = AuthService.getCurrentUser();
-    const user = false;
+    const user = AuthService.getCurrentUser();
+    // const user = false;
     if (user) {
       setCurrentUser(user);
     }
   }, [])
+
+  const logOut = () => {
+    AuthService.logout();
+  }
 
   return (
     <div>
