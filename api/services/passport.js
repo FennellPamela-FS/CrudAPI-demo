@@ -11,13 +11,14 @@ const localOptions = {
 }
 
 const localStrategy = new LocalStrategy(localOptions, function (email, password, done) {
+    // look for the user we want to login with
     User.findOne({ email: email }, function (error, user) {
-        if (error) { return done(error) }
-        if (!user) { return done(null, false) }
+        if (error) { return done(error) }   // if error, return done
+        if (!user) { return done(null, false) } // if user not found, return done but with no user
         user.comparePassword(password, function (error, isMatch) {
             if (error) { return done(error) }
             if (!isMatch) { return done(null, false) }
-            return done(null, user);
+            return done(null, user);    // if user is found, return user info
         })
     })
 })

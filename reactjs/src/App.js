@@ -27,6 +27,7 @@ function App() {
       <div>
         {
           // currentUser ? <Dashboard /> : <Home />
+          // currentUser === false
           currentUser ? <h2>Logged In</h2> : <h2>You are Logged Out</h2>
         }
       </div>

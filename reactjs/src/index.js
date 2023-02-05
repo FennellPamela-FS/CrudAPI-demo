@@ -9,6 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
+      {/* provider wrapped around the application */}
       <App />
     </Router>
   </React.StrictMode>
